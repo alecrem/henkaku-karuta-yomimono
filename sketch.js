@@ -61,7 +61,7 @@ const cardStock = () => {
 };
 const cardKana = () => {
   const kanaSize = sqSide / 8;
-  strokeWeight(10);
+  strokeWeight(~~(sqSide * 0.016));
   push();
   translate(sqSide * 0.75, sqSide * 0.115);
   fill(255);
