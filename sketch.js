@@ -1,21 +1,37 @@
 let index = 0;
-var offsetX, offsetY, sqSide;
+let offsetX, offsetY, sqSide, rightMarginWidth, rightMarginX;
+let buttonColour = "";
+const buttonPalette = [
+  "rgba(100%,100%,100%,0.4)",
+  "rgba(100%,100%,100%,0.6)",
+  "rgba(100%,100%,100%,0)",
+];
 const cardRatio = 0.7163461538; //card width/height ratio
 const borderThickness = 0.051 * cardRatio; //black border width as a factor of sqSide
+let backButton;
 
 function setup() {
   background(80, 160, 100);
   createCanvas(windowWidth, windowHeight);
   windowResized();
-  index = ~~random(yomimono.length);
+  noStroke();
+  addBackButton();
 }
 
 function draw() {
   background(80, 160, 100);
+  push();
+  translate(offsetX, offsetY);
+
   cardStock();
   cardYomimono();
   cardBorder();
   cardKana();
+
+  nextButton();
+  updateBackButton();
+
+  pop();
 }
 
 function windowResized() {
@@ -23,33 +39,39 @@ function windowResized() {
   sqSide = min(windowHeight, windowWidth);
   offsetX = (windowWidth - sqSide) / 2;
   offsetY = (windowHeight - sqSide) / 2;
+  rightMarginWidth = sqSide * ((1 - cardRatio) / 2);
+  rightMarginX =
+    sqSide * (cardRatio + borderThickness * 0.5) + rightMarginWidth;
+}
+
+function mouseClicked() {
+  // The whole right margin acts as a "next" button
+  if (mouseX > offsetX + rightMarginX && index < yomimono.length - 1) {
+    index++;
+  }
 }
 
 const cardStock = () => {
-  push();
-  translate(offsetX, offsetY);
   fill(255);
   rect((sqSide * (1 - cardRatio)) / 2, 0, sqSide * cardRatio, sqSide);
-  pop();
 };
 const cardKana = () => {
   const kanaSize = sqSide / 8;
-  push();
-  translate(offsetX, offsetY);
   strokeWeight(10);
+  push();
   translate(sqSide * 0.75, sqSide * 0.115);
   fill(255);
+  stroke(0);
   circle(0, 0, sqSide / 5);
+  noStroke();
   fill(0);
   textSize(kanaSize);
-  text(yomimono[index].kana, -kanaSize / 2, (kanaSize * 3) / 7);
+  text(yomimono[yomimonoOrder[index]].kana, -kanaSize / 2, (kanaSize * 3) / 7);
   pop();
 };
 const cardYomimono = () => {
   const maxLines = 23;
   const yomimonoSize = sqSide / maxLines;
-  push();
-  translate(offsetX, offsetY);
   fill(0);
   textSize(yomimonoSize);
   textStart = [sqSide * (1 - cardRatio), 10 * yomimonoSize];
@@ -64,11 +86,8 @@ const cardYomimono = () => {
     textStart[0],
     textStart[1] + yomimonoSize * 4
   );
-  pop();
 };
 const cardBorder = () => {
-  push();
-  translate(offsetX, offsetY);
   fill(0);
   rect((sqSide * (1 - cardRatio)) / 2, 0, sqSide * borderThickness, sqSide); //left border
   rect(
@@ -89,7 +108,40 @@ const cardBorder = () => {
     sqSide * cardRatio,
     sqSide * borderThickness
   ); //bottom border
+};
+const nextButton = () => {
+  const triangleHeight = sqSide * 0.3;
+  if (index >= yomimono.length - 1) {
+    buttonColour = buttonPalette[2];
+  } else if (mouseX > offsetX + rightMarginX) {
+    buttonColour = buttonPalette[1];
+  } else {
+    buttonColour = buttonPalette[0];
+  }
+  fill(buttonColour);
+
+  push();
+  translate(rightMarginX, 0);
+  triangle(
+    0,
+    (sqSide - triangleHeight) / 2,
+    0,
+    (sqSide + triangleHeight) / 2,
+    rightMarginWidth - sqSide * 0.05,
+    sqSide / 2
+  );
   pop();
+};
+const addBackButton = () => {
+  button = createButton("« 前のカルタに戻る");
+  button.position(sqSide * 0.01, sqSide * 0.01);
+  button.mousePressed(() => {
+    index--;
+  });
+};
+const updateBackButton = () => {
+  if (index < 1) button.attribute("disabled", true);
+  else button.removeAttribute("disabled");
 };
 
 const yomimono = [
@@ -415,4 +467,9 @@ const yomimono = [
     yomigana3: "ふえている",
     author: "SAKAI",
   },
+];
+const yomimonoOrder = [
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+  22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+  41, 42, 43, 44, 45,
 ];
