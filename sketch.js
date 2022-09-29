@@ -32,6 +32,7 @@ function draw() {
   updateBackButton();
 
   pop();
+  statusText();
 }
 
 function windowResized() {
@@ -132,9 +133,16 @@ const nextButton = () => {
   );
   pop();
 };
+const statusText = () => {
+  fill(0);
+  textSize(14);
+  textStyle(BOLD);
+  text(index + 1 + "/" + yomimono.length, 8, 20);
+  textStyle(NORMAL);
+};
 const addBackButton = () => {
   button = createButton("« 前のカルタに戻る");
-  button.position(sqSide * 0.01, sqSide * 0.01);
+  button.position(8, 30);
   button.mousePressed(() => {
     index--;
   });
