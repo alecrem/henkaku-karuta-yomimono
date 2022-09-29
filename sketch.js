@@ -45,12 +45,15 @@ function windowResized() {
     sqSide * (cardRatio + borderThickness * 0.5) + rightMarginWidth;
 }
 
-function mouseClicked() {
+function touchEnded() {
+  handleTouchOrClick();
+}
+const handleTouchOrClick = () => {
   // The whole right margin acts as a "next" button
   if (mouseX > offsetX + rightMarginX && index < yomimono.length - 1) {
     index++;
   }
-}
+};
 
 const cardStock = () => {
   fill(255);
