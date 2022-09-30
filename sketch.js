@@ -79,14 +79,14 @@ const cardYomimono = () => {
   fill(0);
   textSize(yomimonoSize);
   textStart = [sqSide * (1 - cardRatio), 10 * yomimonoSize];
-  text(yomimono[index].yomigana1, textStart[0], textStart[1]);
+  text(yomimono[yomimonoOrder[index]].yomigana1, textStart[0], textStart[1]);
   text(
-    yomimono[index].yomigana2,
+    yomimono[yomimonoOrder[index]].yomigana2,
     textStart[0],
     textStart[1] + yomimonoSize * 2
   );
   text(
-    yomimono[index].yomigana3,
+    yomimono[yomimonoOrder[index]].yomigana3,
     textStart[0],
     textStart[1] + yomimonoSize * 4
   );
