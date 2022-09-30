@@ -1,4 +1,4 @@
-let index = 0;
+let index = -1;
 let offsetX, offsetY, sqSide, rightMarginWidth, rightMarginX;
 let buttonColour = "";
 const buttonPalette = [
@@ -23,16 +23,22 @@ function draw() {
   push();
   translate(offsetX, offsetY);
 
-  cardStock();
-  cardYomimono();
-  cardBorder();
-  cardKana();
+  if (index >= 0) {
+    cardStock();
+    cardYomimono();
+    cardBorder();
+    cardKana();
+  } else {
+    coverCard();
+  }
 
-  nextButton();
   updateBackButton();
+  nextButton();
 
   pop();
-  statusText();
+  if (index >= 0) {
+    statusText();
+  }
 }
 
 function windowResized() {
@@ -90,6 +96,21 @@ const cardYomimono = () => {
     textStart[0],
     textStart[1] + yomimonoSize * 4
   );
+};
+const coverCard = () => {
+  fill("#723");
+  rect((sqSide * (1 - cardRatio)) / 2, 0, sqSide * cardRatio, sqSide);
+  const titleSize = sqSide / 15;
+  textSize(titleSize);
+  textAlign(CENTER);
+  textStyle(BOLD);
+  fill(255);
+  text("ヘンカク カルタ", sqSide / 2, sqSide * (5 / 15));
+  text("読み物", sqSide / 2, sqSide * (6.5 / 15));
+  textStyle(NORMAL);
+  textSize(titleSize * (2 / 3));
+  text("シャッフル 001", sqSide / 2, sqSide * (11 / 15));
+  textAlign(LEFT);
 };
 const cardBorder = () => {
   fill(0);
@@ -151,7 +172,7 @@ const addBackButton = () => {
   });
 };
 const updateBackButton = () => {
-  if (index < 1) button.attribute("disabled", true);
+  if (index < 0) button.attribute("disabled", true);
   else button.removeAttribute("disabled");
 };
 
