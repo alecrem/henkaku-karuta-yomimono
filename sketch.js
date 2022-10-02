@@ -109,7 +109,7 @@ const coverCard = () => {
   text("読み物", sqSide / 2, sqSide * (6.5 / 15));
   textStyle(NORMAL);
   textSize(titleSize * (2 / 3));
-  text("シャッフル 001", sqSide / 2, sqSide * (11 / 15));
+  text("シャッフル 002", sqSide / 2, sqSide * (11 / 15));
   textAlign(LEFT);
 };
 const cardBorder = () => {
