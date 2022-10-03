@@ -500,8 +500,14 @@ const yomimono = [
     author: "SAKAI",
   },
 ];
-const yomimonoOrder = [
-  12, 6, 5, 39, 38, 37, 44, 1, 7, 2, 31, 19, 22, 33, 29, 13, 27, 14, 24, 36, 26,
-  20, 10, 41, 40, 3, 4, 15, 42, 11, 0, 21, 43, 8, 32, 23, 25, 45, 9, 17, 35, 28,
-  34, 18, 30, 16,
-];
+
+let yomimonoOrder = [];
+for (let i = 0; i < yomimono.length; i++) {
+  yomimonoOrder.push(i);
+}
+for (let i = 0; i < yomimono.length; i++) {
+  const randomIndex = ~~(Math.random() * yomimonoOrder.length);
+  const previousValueAtIndex = yomimonoOrder[i];
+  yomimonoOrder[i] = yomimonoOrder[randomIndex];
+  yomimonoOrder[randomIndex] = previousValueAtIndex;
+}
