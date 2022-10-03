@@ -11,4 +11,4 @@ for (let i = 0; i < yomimonoOrder.length; i++) {
   yomimonoOrder[randomIndex] = previousValueAtIndex;
 }
 
-console.log(JSON.stringify(yomimonoOrder));
+console.log("yomimonoOrder = " + JSON.stringify(yomimonoOrder) + ";");
